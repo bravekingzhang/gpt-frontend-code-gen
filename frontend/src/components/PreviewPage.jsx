@@ -1,48 +1,72 @@
 import React, { useState } from 'react';
-import { Box, Button, Input, Grid } from '@chakra-ui/react';
+import { Box, Button, Grid, Text } from '@chakra-ui/react';
+import { cloneDeep } from 'lodash';
 
-const Calculator = () => {
-  const [result, setResult] = useState("");
+const SIZE = 4;
 
-  const handleClick = (e) => {
-    setResult(result.concat(e.target.name));
-  }
+const initializeGame = () => {
+  let grid = Array(SIZE).fill().map(() => Array(SIZE).fill(0));
 
-  const clear = () => {
-    setResult("");
-  }
+  console.table(grid);
+  addNumber(grid);
+  console.table(grid);
+  addNumber(grid);
+  console.table(grid);
 
-  const calculate = () => {
-    try {
-      setResult(eval(result).toString());
-    } catch(err) {
-      setResult("Error");
+  return grid;
+};
+
+const addNumber = (grid) => {
+  let added = false;
+  while (!added) {
+    let rand1 = Math.floor(Math.random() * SIZE);
+    let rand2 = Math.floor(Math.random() * SIZE);
+    if (grid[rand1][rand2] === 0) {
+      grid[rand1][rand2] = Math.random() > 0.5 ? 2 : 4;
+      added = true;
     }
   }
+};
+
+const Game2048 = () => {
+  const [grid, setGrid] = useState(() => initializeGame());
+
+  const moveLeft = () => {
+    let oldGrid = grid;
+    let newGrid = cloneDeep(grid);
+
+    for (let i = 0; i < SIZE; i++) {
+      let b = [];
+      for (let j = 0; j < SIZE; j++) {
+        if (newGrid[i][j] !== 0) {
+          b.push(newGrid[i][j]);
+          newGrid[i][j] = 0;
+        }
+      }
+      for (let j = 0; j < SIZE && b.length > 0; j++) {
+        newGrid[i][j] = b.shift();
+      }
+    }
+    setGrid(newGrid);
+    addNumber(newGrid);
+  };
 
   return (
     <Box maxW="sm" mx="auto" textAlign="center" p={4}>
-      <Input value={result} isReadOnly placeholder="0" mb={4} />
       <Grid templateColumns="repeat(4, 1fr)" gap={4}>
-        <Button name="1" onClick={handleClick}>1</Button>
-        <Button name="2" onClick={handleClick}>2</Button>
-        <Button name="3" onClick={handleClick}>3</Button>
-        <Button name="+" colorScheme="blue" onClick={handleClick}>+</Button>
-        <Button name="4" onClick={handleClick}>4</Button>
-        <Button name="5" onClick={handleClick}>5</Button>
-        <Button name="6" onClick={handleClick}>6</Button>
-        <Button name="-" colorScheme="blue" onClick={handleClick}>-</Button>
-        <Button name="7" onClick={handleClick}>7</Button>
-        <Button name="8" onClick={handleClick}>8</Button>
-        <Button name="9" onClick={handleClick}>9</Button>
-        <Button name="*" colorScheme="blue" onClick={handleClick}>*</Button>
-        <Button name="C" colorScheme="red" onClick={clear}>C</Button>
-        <Button name="0" onClick={handleClick}>0</Button>
-        <Button name="=" colorScheme="green" onClick={calculate}>=</Button>
-        <Button name="/" colorScheme="blue" onClick={handleClick}>/</Button>
+        {grid.map((row, i) =>
+          row.map((num, j) => (
+            <Text key={`${i}-${j}`} w="100%" h="20" bg="gray.200" p={2}>
+              {num !== 0 ? num : ''}
+            </Text>
+          ))
+        )}
       </Grid>
+      <Button onClick={moveLeft} mt={4}>
+        Move Left
+      </Button>
     </Box>
   );
-}
+};
 
-export default Calculator;
+export default Game2048;

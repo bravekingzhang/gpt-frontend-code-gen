@@ -18,6 +18,7 @@
     "axios": "^1.7.2",
     "framer-motion": "^11.2.11",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "mathjs": "^13.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
