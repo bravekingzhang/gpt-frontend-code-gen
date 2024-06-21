@@ -1,6 +1,17 @@
-# 项目名称
+# 前端页面/组件生成神器
 
 这是一个使用 React 和 Vite 构建的前端项目，配合 Koa 框架的后端服务，实现了一个前端页面生成并预览的功能，而且基于对话，可以不断调整页面效果。前端使用了 Chakra UI 作为 UI 框架，提供了良好的用户体验和界面设计。
+
+#### 看看效果
+
+一句话生成一个前端页面，让你的前端开发效率提升数倍。
+![一句话生成](https://cdn.jsdelivr.net/gh/bravekingzhang/pic_go@master/vscode/219bbde8839c426c9ba84a9da76640ba0f4c8f0e196aa02ac536c977c8f33ea8.png)
+
+支持更新，让他修改下风格
+![风格修复](https://cdn.jsdelivr.net/gh/bravekingzhang/pic_go@master/vscode/84ca16c261fedabaf7ae2e14b4e87f465f2a6561f67839e51ab40c75013e0241.png)
+
+继续让他在修改下布局，完美了
+![最终修复](https://cdn.jsdelivr.net/gh/bravekingzhang/pic_go@master/vscode/7832d0c7e562dc9dcce53ca57be68bfdbd1b4a83b43ee14e9680a9c9ebaa87c1.png)
 
 ## 功能特性
 
@@ -14,6 +25,7 @@
 - [ ] 支持更多的代码生成模板，如 Vue 的生成。
 - [ ] 支持 Flutter 生成并预览效果。
 - [ ] 支持代码显示，手动编辑代码，编辑器支持代码自动提示，补全。
+- [ ] 生成出错回滚，保留历史生成记录。
 
 ## 技术栈
 
@@ -47,7 +59,6 @@ npm run dev
 
 打开浏览器，访问 `http://localhost:9000`，即可看到前端页面，配置自己的 APIKey，和 BaseUrl。就可以愉快的玩耍了。
 
-
 ## docker 一键启动
 
 这应该是最简单的方式了，只需要安装 docker 和 docker-compose，然后执行以下命令即可。
@@ -57,4 +68,3 @@ docker-compose up -d --build
 ```
 
 **注意** ，gemini-pro 模型请对接`one-api`，因为项目对标标准的 openai 的接口，所以需要对接`one-api`。
-
