@@ -1,0 +1,33 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./frontend  # 前端代码的 Dockerfile 所在目录
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"  # 映射前端应用的端口
+    volumes:
+      - ./frontend/src/components:/app/src/components
+    networks:
+      - gpt-network
+    depends_on:
+      - backend
+    environment:
+      REACT_APP_API_URL: http://backend:3001  # 设置后端服务的访问地址
+
+  backend:
+    build:
+      context: ./server  # 后端代码的 Dockerfile 所在目录
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"  # 映射后端应用的端口
+    volumes:
+      - ./frontend/src/components:/app/src/components
+    networks:
+      - gpt-network
+    env_file:
+      - ./server/.env  # 读取环境变量文件
+
+networks:
+  gpt-network:
+    driver: bridge

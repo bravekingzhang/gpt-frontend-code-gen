@@ -1,0 +1,32 @@
+# 依赖目录
+node_modules/
+
+# 构建输出
+
+# 日志文件
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 编辑器目录和文件
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 操作系统生成的文件
+.DS_Store
+
+# 本地配置文件
+*.local
+
+# 忽略所有 .env 文件，但保留 .env.example
+.env
+!.env.example
