@@ -14,9 +14,9 @@ import {
   Select,
 } from "@chakra-ui/react";
 import axios from "axios";
-import PreviewPage from "./PreviewPage";
 
 import  useLocalStorage  from "../hooks/useLocalStorage";
+import { Outlet } from "react-router-dom";
 
 const HomePage = () => {
   const [prompt, setPrompt] = useState("");
@@ -112,7 +112,7 @@ const HomePage = () => {
       >
         <Center>
           <Suspense fallback={<Loading/>}>
-            <PreviewPage />
+            <Outlet />
           </Suspense>
         </Center>
       </GridItem>
