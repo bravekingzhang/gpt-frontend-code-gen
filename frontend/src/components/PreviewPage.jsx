@@ -1,50 +1,65 @@
-import React, { useState } from 'react';
-import { Box, Button, Input, Grid } from '@chakra-ui/react';
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  FormLabel,
+  Input,
+  VStack,
+} from "@chakra-ui/react";
 
-const Calculator = () => {
-  const [result, setResult] = useState("");
+const LoginPage = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleClick = (e) => {
-    setResult(result.concat(e.target.name));
-  }
-
-  const clear = () => {
-    setResult("");
-  }
-
-  const calculate = () => {
-    try {
-      setResult(eval(result).toString());
-    } catch(err) {
-      setResult("Error");
-    }
-  }
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Handle login logic here
+  };
 
   return (
-    <Box>
-      <Input value={result} isReadOnly />
-
-      <Grid templateColumns="repeat(4, 1fr)" gap={2}>
-        <Button onClick={clear} colorScheme="teal" variant="outline">Clear</Button>
-        <Button onClick={calculate} colorScheme="green" variant="outline">Result</Button>
-        <Button name="/" onClick={handleClick} colorScheme="gray" variant="outline">/</Button>
-        <Button name="7" onClick={handleClick} colorScheme="gray" variant="outline">7</Button>
-        <Button name="8" onClick={handleClick} colorScheme="gray" variant="outline">8</Button>
-        <Button name="9" onClick={handleClick} colorScheme="gray" variant="outline">9</Button>
-        <Button name="*" onClick={handleClick} colorScheme="gray" variant="outline">*</Button>
-        <Button name="4" onClick={handleClick} colorScheme="gray" variant="outline">4</Button>
-        <Button name="5" onClick={handleClick} colorScheme="gray" variant="outline">5</Button>
-        <Button name="6" onClick={handleClick} colorScheme="gray" variant="outline">6</Button>
-        <Button name="-" onClick={handleClick} colorScheme="gray" variant="outline">-</Button>
-        <Button name="1" onClick={handleClick} colorScheme="gray" variant="outline">1</Button>
-        <Button name="2" onClick={handleClick} colorScheme="gray" variant="outline">2</Button>
-        <Button name="3" onClick={handleClick} colorScheme="gray" variant="outline">3</Button>
-        <Button name="+" onClick={handleClick} colorScheme="gray" variant="outline">+</Button>
-        <Button name="0" onClick={handleClick} colorScheme="gray" variant="outline">0</Button>
-        <Button name="." onClick={handleClick} colorScheme="gray" variant="outline">.</Button>
-      </Grid>
-    </Box>
+    <Container maxW="container.sm" centerContent p={8}>
+      <VStack
+        w="full"
+        h="full"
+        p={10}
+        spacing={6}
+        align="center"
+        backgroundColor="gray.200"
+        borderRadius="xl"
+      >
+        <Box w="full">
+          <Text color="black" fontSize="4xl" textAlign="center" m={4}>
+            Login
+          </Text>
+        </Box>
+        <Box w="full">
+          <form onSubmit={handleLogin}>
+            <FormControl id="username" isRequired>
+              <FormLabel>Username</FormLabel>
+              <Input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </FormControl>
+            <FormControl id="password" isRequired mt={6}>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </FormControl>
+            <Button colorScheme="teal" type="submit" width="full" mt={6}>
+              Login
+            </Button>
+          </form>
+        </Box>
+      </VStack>
+    </Container>
   );
-}
+};
 
-export default Calculator;
+export default LoginPage;
