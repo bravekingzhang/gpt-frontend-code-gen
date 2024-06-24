@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Heading, Text, Avatar, Button, Flex } from '@chakra-ui/react';
+import { Box, Heading, Text, Avatar, Button, Flex, Icon, Link } from '@chakra-ui/react';
+import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
 const UserProfile = () => {
   return (
@@ -11,9 +12,20 @@ const UserProfile = () => {
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
         Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.
       </Text>
-      <Flex justify="center" gap={4}>
+      <Flex justify="center" gap={4} mb={4}>
         <Button colorScheme="blue">Follow</Button>
         <Button colorScheme="green">Message</Button>
+      </Flex>
+      <Flex justify="center" gap={4}>
+        <Link href="https://github.com/" isExternal>
+          <Icon as={FaGithub} boxSize="24px" />
+        </Link>
+        <Link href="https://linkedin.com/" isExternal>
+          <Icon as={FaLinkedin} boxSize="24px" />
+        </Link>
+        <Link href="https://twitter.com/" isExternal>
+          <Icon as={FaTwitter} boxSize="24px" />
+        </Link>
       </Flex>
     </Box>
   );
