@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const  previewPageContent =`
 
@@ -38,7 +39,34 @@ const writeCode = (code) => {
     );
 };
 
+// 获取文件变更历史,
+// 返回一个数组，数组中的每个元素是一个object，包含 commitHash, commitDate, commitMessage
+const getHistory=() =>{
+  const logCommand = `git log --pretty=format:'%h %ad %s' --date=short -- ${codeFilePath}`;
+  const history = execSync(logCommand).toString().trim().split('\n');
+  return history.map((item) => {
+    const [commitHash, commitDate, ...commitMessage] = item.split(' ');
+    return {
+      commitHash,
+      commitDate,
+      commitMessage: commitMessage.join(' '),
+    };
+  });
+}
+
+// 获取特定版本的文件内容
+const getHistoryFile=(commitHash)=> {
+  const innerCodeFilePath = isDockerEnv?
+    path.join('/src/components', 'PreviewPage.jsx'):
+    path.join('../frontend/src/components', 'PreviewPage.jsx');
+  const showCommand = `git show ${commitHash}:${innerCodeFilePath}`;
+  const fileContent = execSync(showCommand).toString();
+  return fileContent;
+}
+
 module.exports = {
     readCode,
-    writeCode
+    writeCode,
+    getHistory,
+    getHistoryFile,
 };

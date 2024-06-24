@@ -6,7 +6,7 @@ const axios = require("axios");
 //config cors ,allow all
 const cors = require("@koa/cors");
 
-const { readCode, writeCode } = require("./history");
+const { readCode, writeCode,getHistory,getHistoryFile } = require("./history");
 
 const app = new Koa();
 const router = new Router();
@@ -92,6 +92,24 @@ router.post("/update-code", async (ctx) => {
     success: true,
   };
 });
+
+// 获取文件变更历史
+router.get("/get-history", async (ctx) => {
+  const history = getHistory();
+  ctx.body = {
+    history,
+  };
+});
+
+// 获取特定版本的文件内容
+router.get("/get-history-file/:commitHash", async (ctx) => {
+  const { commitHash } = ctx.params;
+  const fileContent = getHistoryFile(commitHash);
+  ctx.body = {
+    fileContent,
+  };
+});
+
 
 app.use(router.routes()).use(router.allowedMethods());
 
