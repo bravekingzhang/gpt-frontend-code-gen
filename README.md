@@ -1,5 +1,8 @@
 # 前端页面/组件生成神器
 
+<img width="80%" alt="image" src="https://github.com/bravekingzhang/gpt-frontend-code-gen/assets/4476322/1f8e7ca2-0e15-4c05-a981-632be4c94a36">
+
+
 这是一个使用 React 和 Vite 构建的前端项目，配合 Koa 框架的后端服务，实现了一个前端页面生成并预览的功能，而且基于对话，可以不断调整页面效果。老板说要看一个交互效果，分分钟就出来啦。
 
 #### 看看效果
