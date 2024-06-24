@@ -1,51 +1,25 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Center,
-  Container,
-  FormControl,
-  FormLabel,
-  Input,
-  VStack,
-} from "@chakra-ui/react";
+import React from 'react';
+import { Box, Image, Text, Button } from "@chakra-ui/react";
 
-const PreviewPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(name, email);
+const UserProfile = () => {
+  const user = {
+    name: 'John Doe',
+    bio: 'Front-end developer. Passionate about React and Chakra UI.',
+    avatar: 'https://via.placeholder.com/150',
   };
 
   return (
-    <Container>
-
-      <Center>
-        <h3>code Generate Preview Page</h3>
-      </Center>
-      <VStack spacing={4}>
-        <FormControl>
-          <FormLabel>Name</FormLabel>
-          <Input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Email</FormLabel>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </FormControl>
-        <Button onClick={handleSubmit}>Submit</Button>
-      </VStack>
-    </Container>
+    <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden" p={6} m={6}>
+      <Image borderRadius="full" boxSize="150px" src={user.avatar} alt={user.name} m="auto" />
+      <Box mt={4} textAlign="center">
+        <Text fontSize="2xl">{user.name}</Text>
+        <Text mt={2}>{user.bio}</Text>
+      </Box>
+      <Button colorScheme="teal" variant="outline" width="full" mt={4}>
+        Follow
+      </Button>
+    </Box>
   );
-}
+};
 
-export default PreviewPage;
+export default UserProfile;

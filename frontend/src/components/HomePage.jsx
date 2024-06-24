@@ -16,7 +16,8 @@ import {
 import axios from "axios";
 
 import  useLocalStorage  from "../hooks/useLocalStorage";
-import { Outlet } from "react-router-dom";
+
+import HoldingPage from "./HoldingPage.jsx";
 
 const HomePage = () => {
   const [prompt, setPrompt] = useState("");
@@ -42,11 +43,12 @@ const HomePage = () => {
         model,
       });
       setIsGenerating(false);
-      if (response.data.generatedCode) {
+      if (response.data.success) {
         toast({
           title: "Code generated successfully",
           status: "success",
           duration: 1000,
+          position: "top",
           isClosable: true,
         });
         setTimeout(() => {
@@ -59,7 +61,7 @@ const HomePage = () => {
   };
 
   return (
-    <Flex h='100%'  w='100%' p={4} >
+    <Flex  w='100%' p={4} >
       {/* 左侧对话区域 */}
       <GridItem flex="1" w="100%" p={4} borderRight="1px solid #e2e8f0" border={
         { base: "none", md: "1px solid #e2e8f0" }
@@ -111,9 +113,7 @@ const HomePage = () => {
     }
       >
         <Center>
-          <Suspense fallback={<Loading/>}>
-            <Outlet />
-          </Suspense>
+          <HoldingPage />
         </Center>
       </GridItem>
     </Flex>
@@ -121,8 +121,6 @@ const HomePage = () => {
 };
 
 
-const Loading = () => {
-  return <div>Loading...</div>;
-}
+
 
 export default HomePage;
