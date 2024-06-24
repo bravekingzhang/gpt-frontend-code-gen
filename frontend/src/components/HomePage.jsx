@@ -107,7 +107,11 @@ const HomePage = () => {
         border={{ base: "none", md: "1px solid #e2e8f0" }}
       >
         <VStack spacing={4}>
-          <Accordion width="100%" allowToggle>
+          <Accordion width="100%" allowToggle style={{
+             border: "1px solid #e2e8f0",
+             borderRadius:"8px",
+            boxShadow: "0 0 8px 0 rgba(0,0,0,0.1)",
+          }}>
             <AccordionItem>
               <AccordionButton>
                 <Box as="span" flex="1" textAlign="left">
@@ -154,7 +158,12 @@ const HomePage = () => {
 
           <HistoryList history={fileChangeHistory} />
           <Textarea
-            placeholder="Enter your prompt"
+          style={{
+            border: "1px solid #e2e8f0",
+             borderRadius:"8px",
+            boxShadow: "0 0 8px 0 rgba(0,0,0,0.1)",
+          }}
+            placeholder="Enter your prompt here"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
@@ -200,7 +209,7 @@ const HistoryItem = ({ item }) => {
   return (
     <div>
       <div>
-        <strong>Commit Date:</strong> {item.commitDate}
+        <strong>Commit Time:</strong> {item.commitDate}
       </div>
       <div>
         <strong>Commit Message:</strong> {item.commitMessage}
@@ -231,7 +240,12 @@ const HistoryList = ({ history }) => {
     }
   };
   return (
-    <Box width="100%"  >
+    <Box width="100%" style={{
+      border: "1.5px solid #e2e8f0",
+      borderRadius: "8px",
+      padding:"8px",
+      boxShadow: "0 0 8px 0 rgba(0,0,0,0.1)",
+    }} >
     <div style={
       {
         borderBottom: "1px solid #e2e8f0",
@@ -239,7 +253,7 @@ const HistoryList = ({ history }) => {
         borderBottomColor: "#e2e8f0",
         borderBottomStyle: "solid",
         marginBottom: "8px",
-        padding: "8px 18px",
+        padding: "8px 8px",
       }
     } py={2}>
       <Heading fontSize="l" >File Change History</Heading>
@@ -255,6 +269,8 @@ const HistoryList = ({ history }) => {
               borderRadius: "5px",
               fontSize: "14px",
               width: "100%",
+              // 阴影
+              boxShadow: "0 0 8px 0 rgba(0,0,0,0.1)",
             }}
             onClick={() => loadHistoryFile(item.commitHash)}
             key={index}

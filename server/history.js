@@ -47,17 +47,19 @@ const initCode = () => {
 
 // 获取文件变更历史,
 // 返回一个数组，数组中的每个元素是一个object，包含 commitHash, commitDate, commitMessage
-const getHistory=() =>{
-  const logCommand = `git log --pretty=format:'%h %ad %s' --date=short -- ${codeFilePath}`;
+const getHistory = () => {
+  const logCommand = `git log --pretty=format:'%h %ad %s' --date=format:'%Y-%m-%d %H:%M' -- ${codeFilePath}`;
   const history = execSync(logCommand).toString().trim().split('\n');
   return history.map((item) => {
-    const [commitHash, commitDate, ...commitMessage] = item.split(' ');
+    const match = item.match(/^(\w+)\s([\d-]+\s[\d:]+)\s(.*)$/);
+    if (!match) return null; // 或者处理无法匹配的情况
+    const [, commitHash, commitDate, commitMessage] = match;
     return {
       commitHash,
       commitDate,
-      commitMessage: commitMessage.join(' '),
+      commitMessage,
     };
-  });
+  }).filter(Boolean); // 过滤掉任何null值
 }
 
 // 获取特定版本的文件内容

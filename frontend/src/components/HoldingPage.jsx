@@ -68,7 +68,7 @@ const HoldingPage = () => {
               </Flex>
 
               <Box
-                bg="gray.100"
+                py={4}
                 borderRadius="lg"
                 width={isMobile ? "375px" : "100%"}
                 height={"667px"}
