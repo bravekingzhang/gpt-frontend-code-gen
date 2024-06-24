@@ -6,7 +6,7 @@ const axios = require("axios");
 //config cors ,allow all
 const cors = require("@koa/cors");
 
-const { readCode, writeCode,getHistory,getHistoryFile } = require("./history");
+const { readCode, writeCode,getHistory,getHistoryFile, autoCommit } = require("./history");
 
 const app = new Koa();
 const router = new Router();
@@ -63,6 +63,8 @@ Return the complete and functional implementation code without any additional ex
     const updatedCode = response.data.choices[0].message.content.replace(/```jsx|```/g, '').trim();
     // 更新代码
     writeCode(updatedCode);
+    // 自动提交变更
+    autoCommit(`feat:${prompt}`);
 
     ctx.body = {
       success: true,
@@ -107,6 +109,14 @@ router.get("/get-history-file/:commitHash", async (ctx) => {
   const fileContent = getHistoryFile(commitHash);
   ctx.body = {
     fileContent,
+  };
+});
+
+// 新开始需求
+router.post("/new-page", async (ctx) => {
+  initCode();
+  ctx.body = {
+    success: true,
   };
 });
 

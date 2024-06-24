@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
+import { MdBuild , MdCreateNewFolder } from "react-icons/md"
 import {
   Button,
   Input,
@@ -19,6 +20,7 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
+  HStack,
 } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -53,6 +55,20 @@ const HomePage = () => {
     fetchData();
   }, []);
 
+  const newPage = async () => {
+    try {
+      const response = await axios.post("http://localhost:3001/new-page");
+      if (response.data.success) {
+        setTimeout(() => {
+          window.location.reload();
+        }
+        , 1000);
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleGenerateCode = async () => {
     try {
       setIsGenerating(true);
@@ -142,13 +158,25 @@ const HomePage = () => {
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
+         <HStack>
           <Button
+          leftIcon={<MdCreateNewFolder />}
+            colorScheme="blue"
+            onClick={newPage}
+          >
+            Start New Page
+          </Button>
+
+         <Button
+           leftIcon={<MdBuild />}
+            colorScheme="green"
             loadingText="Generating..."
             isLoading={isGenerating}
             onClick={handleGenerateCode}
           >
             Generate Code
           </Button>
+         </HStack>
         </VStack>
       </GridItem>
 
@@ -166,6 +194,20 @@ const HomePage = () => {
     </Flex>
   );
 };
+
+
+const HistoryItem = ({ item }) => {
+  return (
+    <div>
+      <div>
+        <strong>Commit Date:</strong> {item.commitDate}
+      </div>
+      <div>
+        <strong>Commit Message:</strong> {item.commitMessage}
+      </div>
+    </div>
+  );
+}
 
 const HistoryList = ({ history }) => {
   const loadHistoryFile = async (commitHash) => {
@@ -211,14 +253,15 @@ const HistoryList = ({ history }) => {
               border: "1px solid #e2e8f0",
               padding: "10px",
               borderRadius: "5px",
+              fontSize: "14px",
+              width: "100%",
             }}
             onClick={() => loadHistoryFile(item.commitHash)}
             key={index}
           >
             {
               <Flex justifyContent="space-between">
-                <span>{item.commitDate}:</span>
-                <span>{item.commitMessage}</span>
+                <HistoryItem item={item} />
               </Flex>
             }
           </div>
