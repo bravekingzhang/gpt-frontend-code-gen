@@ -6,7 +6,7 @@ const axios = require("axios");
 //config cors ,allow all
 const cors = require("@koa/cors");
 
-const { readCode, writeCode,getHistory,getHistoryFile, autoCommit } = require("./history");
+const { readCode, writeCode,getHistory,getHistoryFile, autoCommit,initCode } = require("./history");
 
 const app = new Koa();
 const router = new Router();

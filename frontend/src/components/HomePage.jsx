@@ -179,6 +179,7 @@ const HomePage = () => {
          <Button
            leftIcon={<MdBuild />}
             colorScheme="green"
+            isDisabled={!prompt || !apiKey}
             loadingText="Generating..."
             isLoading={isGenerating}
             onClick={handleGenerateCode}
