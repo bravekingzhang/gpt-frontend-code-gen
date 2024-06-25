@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Heading, Text, Avatar, Button, Flex, Icon, Link } from '@chakra-ui/react';
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { Box, Heading, Text, Avatar, Button, Flex, Icon, Link, List, ListItem, ListIcon } from '@chakra-ui/react';
+import { FaGithub, FaLinkedin, FaTwitter, FaRegNewspaper, FaRegLightbulb } from 'react-icons/fa';
 
 const UserProfile = () => {
   return (
@@ -16,7 +16,7 @@ const UserProfile = () => {
         <Button colorScheme="blue">Follow</Button>
         <Button colorScheme="green">Message</Button>
       </Flex>
-      <Flex justify="center" gap={4}>
+      <Flex justify="center" gap={4} mb={6}>
         <Link href="https://github.com/" isExternal>
           <Icon as={FaGithub} boxSize="24px" />
         </Link>
@@ -27,6 +27,28 @@ const UserProfile = () => {
           <Icon as={FaTwitter} boxSize="24px" />
         </Link>
       </Flex>
+      <Heading size="md" mb={2}>Recent Articles</Heading>
+      <List spacing={2} mb={6}>
+        <ListItem>
+          <ListIcon as={FaRegNewspaper} color="blue.500" />
+          Article 1
+        </ListItem>
+        <ListItem>
+          <ListIcon as={FaRegNewspaper} color="blue.500" />
+          Article 2
+        </ListItem>
+      </List>
+      <Heading size="md" mb={2}>Patents</Heading>
+      <List spacing={2}>
+        <ListItem>
+          <ListIcon as={FaRegLightbulb} color="green.500" />
+          Patent 1
+        </ListItem>
+        <ListItem>
+          <ListIcon as={FaRegLightbulb} color="green.500" />
+          Patent 2
+        </ListItem>
+      </List>
     </Box>
   );
 }
