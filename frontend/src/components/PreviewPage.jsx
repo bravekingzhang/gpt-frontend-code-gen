@@ -28,52 +28,52 @@ const Calculator = () => {
         </Text>
       </Box>
       <Grid templateColumns="repeat(4, 1fr)" gap={2} w="100%" h="70%">
-        <Button onClick={clear} colorScheme="teal" variant="outline">
+        <Button onClick={clear} bg="orange.400" color="white">
           C
         </Button>
-        <Button onClick={handleClick} name="/" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="/" bg="gray.600" color="white">
           /
         </Button>
-        <Button onClick={handleClick} name="*" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="*" bg="gray.600" color="white">
           *
         </Button>
-        <Button onClick={handleClick} name="-" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="-" bg="gray.600" color="white">
           -
         </Button>
-        <Button onClick={handleClick} name="7" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="7" bg="gray.300" color="black">
           7
         </Button>
-        <Button onClick={handleClick} name="8" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="8" bg="gray.300" color="black">
           8
         </Button>
-        <Button onClick={handleClick} name="9" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="9" bg="gray.300" color="black">
           9
         </Button>
-        <Button onClick={handleClick} name="+" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="+" bg="gray.600" color="white">
           +
         </Button>
-        <Button onClick={handleClick} name="4" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="4" bg="gray.300" color="black">
           4
         </Button>
-        <Button onClick={handleClick} name="5" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="5" bg="gray.300" color="black">
           5
         </Button>
-        <Button onClick={handleClick} name="6" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="6" bg="gray.300" color="black">
           6
         </Button>
-        <Button onClick={calculate} colorScheme="teal" variant="outline">
+        <Button onClick={calculate} bg="gray.600" color="white">
           =
         </Button>
-        <Button onClick={handleClick} name="1" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="1" bg="gray.300" color="black">
           1
         </Button>
-        <Button onClick={handleClick} name="2" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="2" bg="gray.300" color="black">
           2
         </Button>
-        <Button onClick={handleClick} name="3" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="3" bg="gray.300" color="black">
           3
         </Button>
-        <Button onClick={handleClick} name="0" colorScheme="teal" variant="outline">
+        <Button onClick={handleClick} name="0" bg="gray.300" color="black">
           0
         </Button>
       </Grid>
