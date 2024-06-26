@@ -2,7 +2,11 @@ import { Box, Table, Thead, Tbody, Tr, Th, Td, Text } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 
 const CouponManagementPage = () => {
-  const [coupons, setCoupons] = useState([]);
+  const [coupons, setCoupons] = useState([
+    { id: 1, name: 'Coupon 1', discount: '20%', expiryDate: '2022-12-31' },
+    { id: 2, name: 'Coupon 2', discount: '30%', expiryDate: '2022-11-30' },
+    { id: 3, name: 'Coupon 3', discount: '40%', expiryDate: '2022-10-31' },
+  ]);
 
   useEffect(() => {
     fetchCoupons();
