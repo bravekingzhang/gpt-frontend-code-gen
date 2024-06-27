@@ -2,7 +2,6 @@ import * as React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { List, ListItem } from "@/components/ui/list";
 
 const TodoApp = () => {
   const [todos, setTodos] = useState([]);
@@ -32,14 +31,14 @@ const TodoApp = () => {
         />
         <Button onClick={handleAddTodo}>Add</Button>
       </div>
-      <List>
+      <div>
         {todos.map((todo, index) => (
-          <ListItem key={index}>
+          <div key={index} className="flex justify-between items-center p-2 border-b-2 border-gray-200">
             {todo}
             <Button onClick={() => handleDeleteTodo(index)}>Delete</Button>
-          </ListItem>
+          </div>
         ))}
-      </List>
+      </div>
     </div>
   );
 };
