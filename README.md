@@ -71,6 +71,7 @@ docker-compose up -d --build
 
 - [ ] 支持vue、angular等前端框架组件生成，甚至是 Flutter。
 - [x] 支持代码预览，编辑。
+- [x] 支持生成 ShadcnUI 组件。
 - [x] 保留历史步骤的生成记录，支持选择预览历史生成的组件。
 - [ ] 支持多个大模型生成效果对比。
 

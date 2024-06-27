@@ -15,7 +15,7 @@ function App() {
             <Route path="/" element={<HomePage />} >
                 <Route path="/" element={
                     <ErrorBoundary>
-                        <PreviewPage />
+                       <PreviewPage />
                     </ErrorBoundary>
                 } />
             </Route>

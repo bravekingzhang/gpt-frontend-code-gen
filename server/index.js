@@ -6,7 +6,16 @@ const axios = require("axios");
 //config cors ,allow all
 const cors = require("@koa/cors");
 
-const { readCode, writeCode,getHistory,getHistoryFile, autoCommit,initCode } = require("./history");
+const {
+  previewPageContent,
+  previewPageContentShadcnUI,
+  readCode,
+  writeCode,
+  getHistory,
+  getHistoryFile,
+  autoCommit,
+  initCode,
+} = require("./history");
 
 const app = new Koa();
 const router = new Router();
@@ -17,7 +26,12 @@ app.use(cors());
 
 // 处理 GPT 请求的路由
 router.post("/generate-code", async (ctx) => {
-  const { prompt, apiKey, baseUrl, model } = ctx.request.body;
+  const { useShadcnUI, prompt, apiKey, baseUrl, model } = ctx.request.body;
+
+  const uiMode = useShadcnUI ? "React & Shadcn UI" : "React & Chakra UI";
+  const uiExample = useShadcnUI
+    ? previewPageContentShadcnUI
+    : previewPageContent;
 
   try {
     const currentCode = readCode();
@@ -39,9 +53,13 @@ Return the complete and functional implementation code without any additional ex
       {
         role: "system",
         content: `You are a professional front-end developer. Only provide the complete and functional implementation code without any additional explanations and any markdown code block markers, whether modifying existing code or writing from scratch.
-                always use React + Chakra UI for the implementation.`,
+                always use ${uiMode} for the implementation. Here is a example :
+                \`\`\`jsx
+                ${uiExample}
+                \`\`\
+                `,
       },
-      { role: 'user', content: detailedPrompt }
+      { role: "user", content: detailedPrompt },
     ];
 
     const requestData = {
@@ -60,7 +78,9 @@ Return the complete and functional implementation code without any additional ex
         },
       }
     );
-    const updatedCode = response.data.choices[0].message.content.replace(/```jsx|```/g, '').trim();
+    const updatedCode = response.data.choices[0].message.content
+      .replace(/```jsx|```/g, "")
+      .trim();
     // 更新代码
     writeCode(updatedCode);
     // 自动提交变更
@@ -68,7 +88,7 @@ Return the complete and functional implementation code without any additional ex
 
     ctx.body = {
       success: true,
-      code:updatedCode,
+      code: updatedCode,
     };
   } catch (error) {
     ctx.body = {
@@ -114,12 +134,12 @@ router.get("/get-history-file/:commitHash", async (ctx) => {
 
 // 新开始需求
 router.post("/new-page", async (ctx) => {
-  initCode();
+  const { useShadcnUI } = ctx.request.body;
+  initCode(useShadcnUI);
   ctx.body = {
     success: true,
   };
 });
-
 
 app.use(router.routes()).use(router.allowedMethods());
 

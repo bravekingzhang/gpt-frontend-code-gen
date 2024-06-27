@@ -3,19 +3,43 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const  previewPageContent =`
-
-import { Box} from '@chakra-ui/react';
+import { Box,Heading,Button,VStack} from '@chakra-ui/react';
 
 const PreviewPage = () => {
   return (
     <Box>
-      <h1>New Page</h1>
-      <p>Let's build something great!</p>
+    <VStack>
+     <Heading>Chakra UI</Heading>
+      <p>Let's build something with Chakra UI</p>
+      <Button>OK Let's go</Button>
+      </VStack>
     </Box>
   );
 }
 
 export default PreviewPage;
+`;
+
+const previewPageContentShadcnUI = `
+import * as React from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+const PreviewShadcnPage = ()=> {
+  return (
+    <div className="flex flex-col items-center justify-center h-full space-y-4">
+      <h1 className="text-3xl font-bold">Shadcn UI</h1>
+      <div className="flex space-x-4">
+        <Input placeholder="Input" />
+      </div>
+      <div className="flex space-x-4">
+        <Button>Button</Button>
+      </div>
+    </div>
+  )
+}
+
+export default PreviewShadcnPage;
 `;
 
 // 从环境变量中获取是否是 Docker 环境
@@ -29,9 +53,10 @@ const codeFilePath = isDockerEnv
 
 console.log('codeFilePath:', codeFilePath)
 
-const readCode = () => {
-    if (!fs.existsSync(codeFilePath)) return previewPageContent;
-    return fs.readFileSync(codeFilePath, 'utf8') || previewPageContent;
+const readCode = (isShadcnUI=false) => {
+  const defaultUIContent = isShadcnUI? previewPageContentShadcnUI: previewPageContent;
+    if (!fs.existsSync(codeFilePath)) return defaultUIContent;
+    return fs.readFileSync(codeFilePath, 'utf8') || defaultUIContent;
 };
 
 const writeCode = (code) => {
@@ -41,8 +66,9 @@ const writeCode = (code) => {
 };
 
 // init code
-const initCode = () => {
-  writeCode(previewPageContent);
+const initCode = (isShadcnUI=false) => {
+  const defaultUIContent = isShadcnUI? previewPageContentShadcnUI: previewPageContent;
+  writeCode(defaultUIContent);
 }
 
 // 获取文件变更历史,
@@ -86,6 +112,8 @@ const autoCommit = (commitMessage) => {
 };
 
 module.exports = {
+  previewPageContent,
+  previewPageContentShadcnUI,
     readCode,
     writeCode,
     getHistory,

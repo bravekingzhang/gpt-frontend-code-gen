@@ -21,9 +21,9 @@ const TodoApp = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full space-y-4">
+    <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
       <h1 className="text-3xl font-bold">Todo List</h1>
-      <div className="flex space-x-4">
+      <div className="flex space-x-8">
         <Input
           placeholder="Add a todo"
           value={input}
@@ -33,8 +33,8 @@ const TodoApp = () => {
       </div>
       <div>
         {todos.map((todo, index) => (
-          <div key={index} className="flex justify-between items-center p-2 border-b-2 border-gray-200">
-            {todo}
+          <div key={index} className="flex  justify-between items-center p-2 border-b-2 border-gray-200">
+            <span>{todo}</span>
             <Button onClick={() => handleDeleteTodo(index)}>Delete</Button>
           </div>
         ))}
