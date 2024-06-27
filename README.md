@@ -25,6 +25,7 @@
 ## 功能
 
 - 使用 GPT-4 生成 React 组件。
+- 支持 Chakra UI 组件\ShadcnUI 组件生成。
 - 实时预览生成的组件。
 - 通过持续对话修改和更新组件。
 - 配置自己的 APIKey 和 BaseUrl，支持多种大模型。
