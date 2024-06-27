@@ -1,63 +1,47 @@
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Text, Button, Badge } from '@chakra-ui/react';
-import React, { useState, useEffect } from 'react';
+import * as React from "react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { List, ListItem } from "@/components/ui/list";
 
-const CouponManagementPage = () => {
-  const [coupons, setCoupons] = useState([
-    { id: 1, name: 'Coupon 1', discount: '20%', expiryDate: '2022-12-31', status: 'active' },
-    { id: 2, name: 'Coupon 2', discount: '30%', expiryDate: '2022-11-30', status: 'active' },
-    { id: 3, name: 'Coupon 3', discount: '40%', expiryDate: '2022-10-31', status: 'inactive' },
-  ]);
+const TodoApp = () => {
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState("");
 
-  useEffect(() => {
-    fetchCoupons();
-  }, []);
-
-  const fetchCoupons = async () => {
-    const response = await fetch('https://api.example.com/coupons');
-    const data = await response.json();
-    setCoupons(data);
+  const handleAddTodo = () => {
+    if (input) {
+      setTodos([...todos, input]);
+      setInput("");
+    }
   };
 
-  const handleActivate = (id) => {
-    setCoupons(coupons.map(coupon => coupon.id === id ? { ...coupon, status: 'active' } : coupon));
-  }
-
-  const handleDeactivate = (id) => {
-    setCoupons(coupons.map(coupon => coupon.id === id ? { ...coupon, status: 'inactive' } : coupon));
-  }
+  const handleDeleteTodo = (index) => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  };
 
   return (
-    <Box>
-      <Text fontSize="2xl" mb="5">Coupon Management</Text>
-      <Table variant="striped">
-        <Thead>
-          <Tr>
-            <Th>Coupon ID</Th>
-            <Th>Coupon Name</Th>
-            <Th>Discount</Th>
-            <Th>Expiry Date</Th>
-            <Th>Status</Th>
-            <Th>Actions</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {coupons.map((coupon) => (
-            <Tr key={coupon.id}>
-              <Td>{coupon.id}</Td>
-              <Td>{coupon.name}</Td>
-              <Td>{coupon.discount}</Td>
-              <Td>{coupon.expiryDate}</Td>
-              <Td><Badge colorScheme={coupon.status === 'active' ? 'green' : 'red'}>{coupon.status}</Badge></Td>
-              <Td>
-                <Button size="sm" colorScheme="teal" onClick={() => handleActivate(coupon.id)}>Activate</Button>
-                <Button size="sm" colorScheme="red" onClick={() => handleDeactivate(coupon.id)}>Deactivate</Button>
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </Box>
+    <div className="flex flex-col items-center justify-center h-full space-y-4">
+      <h1 className="text-3xl font-bold">Todo List</h1>
+      <div className="flex space-x-4">
+        <Input
+          placeholder="Add a todo"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <Button onClick={handleAddTodo}>Add</Button>
+      </div>
+      <List>
+        {todos.map((todo, index) => (
+          <ListItem key={index}>
+            {todo}
+            <Button onClick={() => handleDeleteTodo(index)}>Delete</Button>
+          </ListItem>
+        ))}
+      </List>
+    </div>
   );
-}
+};
 
-export default CouponManagementPage;
+export default TodoApp;
