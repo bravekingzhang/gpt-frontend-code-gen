@@ -24,8 +24,8 @@ const Calculator = () => {
     return (
         <div className="flex flex-col items-center justify-center h-full space-y-4">
             <h1 className="text-3xl font-bold">Calculator</h1>
-            <div className="flex space-x-4">
-                <Input placeholder="0" value={result} />
+            <div className="w-full flex justify-center bg-gray-200 p-4 rounded-lg">
+                <Input className="text-2xl" placeholder="0" value={result} />
             </div>
             <div className="flex space-x-4">
                 <Button name="1" onClick={handleClick}>1</Button>
@@ -51,8 +51,8 @@ const Calculator = () => {
                 <Button name="/" onClick={handleClick}>/</Button>
                 <Button onClick={calculate}>=</Button>
             </div>
-            <div className="flex space-x-4">
-                <Button onClick={clear}>Clear</Button>
+            <div className="w-full flex">
+                <Button className="w-full" onClick={clear}>Clear</Button>
             </div>
         </div>
     )
