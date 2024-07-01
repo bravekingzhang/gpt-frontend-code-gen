@@ -10,6 +10,20 @@ COPY package*.json ./
 # 安装依赖
 RUN npm install
 
+# 安装 git
+RUN apk update && apk add --no-cache git
+
+# 初始化 git 仓库
+RUN git init
+
+# 配置 git 用户信息
+RUN git config --global user.email "frontend@user.com"
+RUN git config --global user.name "Docker"
+
+# git add && git commit
+RUN git add .
+RUN git commit -m "init"
+
 # 拷贝所有源代码到工作目录
 COPY . .
 

@@ -48,7 +48,7 @@ const isDockerEnv =  process.env.IS_DOCKER_ENV;
 console.log('isDockerEnv:', isDockerEnv)
 
 const codeFilePath = isDockerEnv
-  ? path.join(__dirname, '/src/components', 'PreviewPage.jsx')
+  ? path.join(__dirname, './src/components', 'PreviewPage.jsx')
   : path.join(__dirname, '../frontend/src/components', 'PreviewPage.jsx');
 
 console.log('codeFilePath:', codeFilePath)
@@ -91,7 +91,7 @@ const getHistory = () => {
 // 获取特定版本的文件内容
 const getHistoryFile=(commitHash)=> {
   const innerCodeFilePath = isDockerEnv?
-    path.join('/src/components', 'PreviewPage.jsx'):
+    path.join('./src/components', 'PreviewPage.jsx'):
     path.join('../frontend/src/components', 'PreviewPage.jsx');
   const showCommand = `git show ${commitHash}:${innerCodeFilePath}`;
   const fileContent = execSync(showCommand).toString();
@@ -101,7 +101,7 @@ const getHistoryFile=(commitHash)=> {
 // 自动提交变更
 const autoCommit = (commitMessage) => {
   const innerCodeFilePath = isDockerEnv?
-    path.join('/src/components', 'PreviewPage.jsx'):
+    path.join('./src/components', 'PreviewPage.jsx'):
     path.join('../frontend/src/components', 'PreviewPage.jsx');
   try {
     execSync(`git add ${innerCodeFilePath}`);
