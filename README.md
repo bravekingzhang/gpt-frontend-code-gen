@@ -1,31 +1,19 @@
 # 前端页面/组件生成神器
-<img width="45%" alt="image" src="https://github.com/bravekingzhang/gpt-frontend-code-gen/assets/4476322/475f403b-415a-4dff-aa0e-a87a763f632f">
-
-<img width="45%" alt="image" src="https://github.com/bravekingzhang/gpt-frontend-code-gen/assets/4476322/44d69125-299e-4b97-a9c4-686a3acc3977">
 
 这是一个使用 React 和 Vite 构建的前端项目，配合 Koa 框架的后端服务，实现了一个前端页面生成并预览的功能，而且基于对话，可以不断调整页面效果。老板说要看一个交互效果，分分钟就出来啦。
 
-#### 看看效果
-
-**step1**: 一句话生成一个前端页面，让你的前端开发效率提升数倍。
-
-<img  src="https://cdn.jsdelivr.net/gh/bravekingzhang/pic_go@master/vscode/219bbde8839c426c9ba84a9da76640ba0f4c8f0e196aa02ac536c977c8f33ea8.png" width="60%">
-
-**step2**：持续迭代，告诉他，修改下风格为 iOS 风格。
-
-<img  src="https://cdn.jsdelivr.net/gh/bravekingzhang/pic_go@master/vscode/84ca16c261fedabaf7ae2e14b4e87f465f2a6561f67839e51ab40c75013e0241.png" width="60%">
-
-**step3**：继续让他在修改下布局，完美了。
-
-<img src="https://cdn.jsdelivr.net/gh/bravekingzhang/pic_go@master/vscode/7832d0c7e562dc9dcce53ca57be68bfdbd1b4a83b43ee14e9680a9c9ebaa87c1.png" width="60%">
+![](https://raw.githubusercontent.com/bravekingzhang/pic_go/master/2024/10/31/1730375359551-ecbd116d-f76d-4a88-8ef8-ddf8ff6a11f8.png)
 
 
-这一切，你只需要告诉他，我要一个什么样的页面，他就会给你生成出来，然后你可以不断的和他对话，让他帮你修改，直到你满意为止。
+![](https://raw.githubusercontent.com/bravekingzhang/pic_go/master/2024/10/31/1730375321849-3f6964e6-dd37-4fa8-8d83-cb942476d38e.png)
+
+![](https://raw.githubusercontent.com/bravekingzhang/pic_go/master/2024/10/31/1730375525069-3d2c6ce6-bfa2-4b17-a782-4143f5be7d4e.png)
+
 
 ## 功能
 
 - 使用 GPT-4 生成 React 组件。
-- 支持 Chakra UI 组件\ShadcnUI 组件生成。
+- ShadcnUI 风格组件生成。
 - 实时预览生成的组件。
 - 通过持续对话修改和更新组件。
 - 配置自己的 APIKey 和 BaseUrl，支持多种大模型。
@@ -33,7 +21,7 @@
 
 ## 技术栈
 
-- 前端：React, Chakra UI, vite
+- 前端：React, vite
 - 后端：Koa
 
 ## 快速开始
@@ -44,21 +32,13 @@
 
 ### 安装依赖
 
-在项目的根目录下，分别为前端和后端安装依赖，启动：
+分别为前端和后端安装依赖，然后在根目录启动：
 
-```sh
-# 安装前端依赖
-cd frontend
-npm install
-npm run dev
-
-# 安装后端依赖
-cd ../server
-npm install
-npm run dev
+```bash
+yarn start
 ```
 
-打开浏览器，访问 `http://localhost:9000`，即可看到前端页面，配置自己的 APIKey，和 BaseUrl。就可以愉快的玩耍了。建议私用 one-api，这样，所以的大模型都可以使用。
+打开浏览器，访问 `http://localhost:9000`，即可看到前端页面，配置自己的 APIKey，和 BaseUrl。就可以愉快的玩耍了。建议使用 one-api，这样，所以的大模型都可以使用。
 
 ## docker 一键启动
 
