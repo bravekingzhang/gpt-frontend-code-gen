@@ -6,9 +6,9 @@ import { FaGoogle, FaFacebook, FaGithub } from "react-icons/fa"
 
 const LoginPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full space-y-6 p-6">
-      <h1 className="text-4xl font-bold text-center text-gray-800">Shadcn UI</h1>
-      <Tabs defaultValue="login" className="w-full max-w-md">
+    <div className="flex flex-col items-center justify-center h-full space-y-6 p-6 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+      <h1 className="text-4xl font-bold text-center text-white">Shadcn UI</h1>
+      <Tabs defaultValue="login" className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
         <TabsList className="flex justify-center space-x-4 bg-gray-100 p-2 rounded-lg">
           <TabsTrigger value="login" className="text-gray-600 hover:text-gray-800">Login</TabsTrigger>
           <TabsTrigger value="register" className="text-gray-600 hover:text-gray-800">Register</TabsTrigger>
