@@ -203,6 +203,15 @@ const HomePage = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
+              <div className="text-sm text-muted-foreground space-y-2">
+                <p>Upload your existing business components or similar pages as reference to:</p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>Generate code that matches your project style</li>
+                  <li>Maintain consistent component patterns</li>
+                  <li>Reuse existing business logic</li>
+                </ul>
+              </div>
+
               <div className="flex items-center gap-4">
                 <Input
                   type="file"
@@ -212,36 +221,51 @@ const HomePage = () => {
                   className="hidden"
                   id="file-upload"
                 />
-                <Label
-                  htmlFor="file-upload"
-                  className="flex items-center gap-2 cursor-pointer hover:text-primary"
-                >
-                  <Upload className="h-4 w-4" />
-                  Upload code files
-                </Label>
-              </div>
-              {referenceFiles.length > 0 && (
-                <ScrollArea className="h-[100px]">
-                  <div className="space-y-2">
-                    {referenceFiles.map((file, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between text-sm"
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Label
+                        htmlFor="file-upload"
+                        className="flex items-center gap-2 cursor-pointer hover:text-primary border rounded-md p-2 text-sm"
                       >
-                        <span>{file.name}</span>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            setReferenceFiles(referenceFiles.filter((_, i) => i !== index));
-                          }}
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    ))}
+                        <Upload className="h-4 w-4" />
+                        Upload code files
+                      </Label>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Support .js, .jsx, .ts, .tsx files</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+
+              {referenceFiles.length > 0 && (
+                <div className="space-y-2">
+                  <div className="text-sm text-muted-foreground">
+                    {referenceFiles.length} file(s) uploaded as reference
                   </div>
-                </ScrollArea>
+                  <ScrollArea className="h-[100px] border rounded-md p-2">
+                    <div className="space-y-2">
+                      {referenceFiles.map((file, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between text-sm bg-muted/50 p-2 rounded-md"
+                        >
+                          <span className="truncate flex-1">{file.name}</span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setReferenceFiles(referenceFiles.filter((_, i) => i !== index));
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </div>
               )}
             </div>
           </CardContent>
