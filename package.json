@@ -1,0 +1,7 @@
+{
+  "name": "ai-page-builder",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node start.js"
+  }
+} 
