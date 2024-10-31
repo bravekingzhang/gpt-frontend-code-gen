@@ -6,7 +6,7 @@ import { FaGoogle, FaFacebook, FaGithub } from "react-icons/fa"
 
 const LoginPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full space-y-6">
+    <div className="flex flex-col items-center justify-center h-full space-y-6 p-6">
       <h1 className="text-4xl font-bold text-center text-gray-800">Shadcn UI</h1>
       <Tabs defaultValue="login" className="w-full max-w-md">
         <TabsList className="flex justify-center space-x-4 bg-gray-100 p-2 rounded-lg">
