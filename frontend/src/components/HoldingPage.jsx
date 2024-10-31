@@ -1,22 +1,30 @@
 import React, { useState, Suspense, useEffect } from "react";
-import {
-  Box,
-  Tab,
-  Tabs,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Flex,
-  Switch,
-  FormLabel,
-} from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import MonacoEditor from "@monaco-editor/react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Label } from "./ui/label";
+import { Switch } from "./ui/switch";
+import { Card } from "./ui/card";
+import { cn } from "@/lib/utils";
 
 const HoldingPage = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [code, setCode] = useState(`hahah`);
+  const [containerHeight, setContainerHeight] = useState(667);
 
+  useEffect(() => {
+    const updateHeight = () => {
+      // 获取视窗高度并减去上方UI元素的高度（标签页、开关等）
+      const viewportHeight = window.innerHeight;
+      const uiElementsHeight = 150; // 预估标签页和开关的总高度
+      const availableHeight = viewportHeight - uiElementsHeight;
+      setContainerHeight(Math.max(500, availableHeight)); // 设置最小高度为500px
+    };
+
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,8 +37,7 @@ const HoldingPage = () => {
       }
     };
     fetchData();
-  }
-  , []);
+  }, []);
 
   const writeCode = async (code) => {
     try {
@@ -45,64 +52,85 @@ const HoldingPage = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
-    <Box p={4} width="100%" height="100%" mx="auto">
-      <Tabs variant="line">
-        <TabList>
-          <Tab>Preview</Tab>
-          <Tab>Code</Tab>
-        </TabList>
+    <div className="w-full h-full p-4 mx-auto">
+      <Tabs defaultValue="preview" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="preview">Preview</TabsTrigger>
+          <TabsTrigger value="code">Code</TabsTrigger>
+        </TabsList>
 
-        <TabPanels>
-          <TabPanel>
-            <Flex justifyContent="center" flexDirection="column">
-              <Flex>
-                <FormLabel htmlFor="mobile">Show Mobile Design</FormLabel>
-                <Switch
-                  id="mobile"
-                  isChecked={isMobile}
-                  onChange={() => setIsMobile(!isMobile)}
-                />
-              </Flex>
-
-              <Box
-                py={4}
-                borderRadius="lg"
-                width={isMobile ? "375px" : "100%"}
-                height={"667px"}
-                overflow="scroll"
-                alignSelf="center"
-              >
-                <Suspense fallback={<Loading />}>
-                  <Outlet />
-                </Suspense>
-              </Box>
-            </Flex>
-          </TabPanel>
-          <TabPanel>
-            <Box p={4} bg="gray.200" borderRadius="lg" height="667px">
-              <MonacoEditor
-                height="100%"
-                defaultLanguage="javascript"
-                defaultValue={code}
-                onChange={(value) => writeCode(value)}
-                theme="vs-dark"
-                options={{
-                  minimap: { enabled: false },
-                }}
+        <TabsContent value="preview">
+          <div className="flex flex-col space-y-4">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="mobile-mode">Show Mobile Design</Label>
+              <Switch
+                id="mobile-mode"
+                checked={isMobile}
+                onCheckedChange={setIsMobile}
               />
-            </Box>
-          </TabPanel>
-        </TabPanels>
+            </div>
+
+            <div className="relative w-full flex justify-center">
+              <div
+                className={cn(
+                  "overflow-auto rounded-lg border",
+                  "transition-all duration-300",
+                  {
+                    "w-full": !isMobile,
+                    "origin-top scale-[0.8]": isMobile,
+                  }
+                )}
+                style={{
+                  height: `${containerHeight}px`,
+                  width: isMobile ? '375px' : '100%',
+                }}
+              >
+                <div
+                  className={cn(
+                    "h-full w-full",
+                    isMobile && "min-w-[375px]"
+                  )}
+                >
+                  <Suspense fallback={<Loading />}>
+                    <Outlet />
+                  </Suspense>
+                </div>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="code">
+          <Card
+            className="bg-zinc-950"
+            style={{ height: `${containerHeight}px` }}
+          >
+            <MonacoEditor
+              height="100%"
+              defaultLanguage="javascript"
+              defaultValue={code}
+              onChange={(value) => writeCode(value)}
+              theme="vs-dark"
+              options={{
+                minimap: { enabled: false },
+              }}
+            />
+          </Card>
+        </TabsContent>
       </Tabs>
-    </Box>
+    </div>
   );
 };
 
 const Loading = () => {
-  return <div>Loading...</div>;
+  return (
+    <div className="flex items-center justify-center h-full">
+      <p className="text-sm text-muted-foreground">Loading...</p>
+    </div>
+  );
 };
 
 export default HoldingPage;
