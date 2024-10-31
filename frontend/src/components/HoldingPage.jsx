@@ -14,11 +14,11 @@ const HoldingPage = () => {
 
   useEffect(() => {
     const updateHeight = () => {
-      // 获取视窗高度并减去上方UI元素的高度（标签页、开关等）
       const viewportHeight = window.innerHeight;
-      const uiElementsHeight = 150; // 预估标签页和开关的总高度
-      const availableHeight = viewportHeight - uiElementsHeight;
-      setContainerHeight(Math.max(500, availableHeight)); // 设置最小高度为500px
+      // 考虑底部输入区域（~160px）和其他UI元素的高度
+      const reservedHeight = 280; // 160px 输入区 + 标签页等UI元素高度
+      const availableHeight = viewportHeight - reservedHeight;
+      setContainerHeight(Math.max(400, availableHeight));
     };
 
     updateHeight();
@@ -55,15 +55,15 @@ const HoldingPage = () => {
   };
 
   return (
-    <div className="w-full h-full p-4 mx-auto">
+    <div className="w-full h-full mx-auto pb-4">
       <Tabs defaultValue="preview" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-2 mb-2">
           <TabsTrigger value="preview">Preview</TabsTrigger>
           <TabsTrigger value="code">Code</TabsTrigger>
         </TabsList>
 
         <TabsContent value="preview">
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-2">
               <Label htmlFor="mobile-mode">Show Mobile Design</Label>
               <Switch
