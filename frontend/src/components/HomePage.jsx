@@ -159,6 +159,8 @@ const HomePage = () => {
                   <option value="gpt-4">GPT-4</option>
                   <option value={"gpt-4o"}>GPT-4o</option>
                   <option value="gemini-pro">Gemini Pro</option>
+                  <option value="deepseek-coder">DeepSeek Coder</option>
+                  <option value="deepseek-chat">DeepSeek Chat</option>
                 </Select>
               </AccordionPanel>
             </AccordionItem>

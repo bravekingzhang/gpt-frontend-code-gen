@@ -15,6 +15,7 @@ const {
   getHistoryFile,
   autoCommit,
   initCode,
+  initGitRepo,
 } = require("./history");
 
 const app = new Koa();
@@ -23,6 +24,9 @@ const router = new Router();
 // 中间件
 app.use(bodyParser());
 app.use(cors());
+
+// 在应用启动时初始化 git 仓库
+initGitRepo();
 
 // 处理 GPT 请求的路由
 router.post("/generate-code", async (ctx) => {

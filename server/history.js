@@ -71,43 +71,100 @@ const initCode = (isShadcnUI=false) => {
   writeCode(defaultUIContent);
 }
 
-// 获取文件变更历史,
-// 返回一个数组，数组中的每个元素是一个object，包含 commitHash, commitDate, commitMessage
+// 添加一个检查 git 仓库是否存在的函数
+const isGitRepo = () => {
+  try {
+    execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+// 添加一个初始化 git 仓库的函数
+const initGitRepo = () => {
+  if (!isGitRepo()) {
+    try {
+      execSync('git init');
+      execSync('git config --global user.email "docker@example.com"');
+      execSync('git config --global user.name "Docker User"');
+      // 创建初始提交
+      execSync('git add .');
+      execSync('git commit -m "Initial commit"');
+      return true;
+    } catch (error) {
+      console.warn('Git 仓库初始化失败:', error.message);
+      return false;
+    }
+  }
+  return true;
+};
+
+// 修改 getHistory 函数
 const getHistory = () => {
-  const logCommand = `git log --pretty=format:'%h %ad %s' --date=format:'%Y-%m-%d %H:%M' -- ${codeFilePath}`;
-  const history = execSync(logCommand).toString().trim().split('\n');
-  return history.map((item) => {
-    const match = item.match(/^(\w+)\s([\d-]+\s[\d:]+)\s(.*)$/);
-    if (!match) return null; // 或者处理无法匹配的情况
-    const [, commitHash, commitDate, commitMessage] = match;
-    return {
-      commitHash,
-      commitDate,
-      commitMessage,
-    };
-  }).filter(Boolean); // 过滤掉任何null值
-}
+  // 确保 git 仓库已初始化
+  if (!initGitRepo()) {
+    return [];
+  }
 
-// 获取特定版本的文件内容
-const getHistoryFile=(commitHash)=> {
-  const innerCodeFilePath = isDockerEnv?
-    path.join('/src/components', 'PreviewPage.jsx'):
-    path.join('../frontend/src/components', 'PreviewPage.jsx');
-  const showCommand = `git show ${commitHash}:${innerCodeFilePath}`;
-  const fileContent = execSync(showCommand).toString();
-  return fileContent;
-}
+  try {
+    const logCommand = `git log --pretty=format:'%h %ad %s' --date=format:'%Y-%m-%d %H:%M' -- ${codeFilePath}`;
+    const history = execSync(logCommand).toString().trim();
+    
+    // 如果没有历史记录，返回空数组
+    if (!history) return [];
+    
+    return history.split('\n').map((item) => {
+      const match = item.match(/^(\w+)\s([\d-]+\s[\d:]+)\s(.*)$/);
+      if (!match) return null;
+      const [, commitHash, commitDate, commitMessage] = match;
+      return {
+        commitHash,
+        commitDate,
+        commitMessage,
+      };
+    }).filter(Boolean);
+  } catch (error) {
+    console.warn('获取 git 历史记录失败:', error.message);
+    return [];
+  }
+};
 
-// 自动提交变更
+// 修改 getHistoryFile 函数，添加容错处理
+const getHistoryFile = (commitHash) => {
+  if (!isGitRepo()) {
+    return readCode(); // 如果不是 git 仓库，返回当前文件内容
+  }
+
+  try {
+    const innerCodeFilePath = isDockerEnv ?
+      path.join('/src/components', 'PreviewPage.jsx') :
+      path.join('../frontend/src/components', 'PreviewPage.jsx');
+    const showCommand = `git show ${commitHash}:${innerCodeFilePath}`;
+    const fileContent = execSync(showCommand).toString();
+    return fileContent;
+  } catch (error) {
+    console.warn('获取历史版本文件失败:', error.message);
+    return readCode(); // 发生错误时返回当前文件内容
+  }
+};
+
+// 修改 autoCommit 函数，添加容错处理
 const autoCommit = (commitMessage) => {
-  const innerCodeFilePath = isDockerEnv?
-    path.join('/src/components', 'PreviewPage.jsx'):
+  if (!isGitRepo()) {
+    console.warn('当前目录不是 git 仓库，跳过提交操作');
+    return;
+  }
+
+  const innerCodeFilePath = isDockerEnv ?
+    path.join('/src/components', 'PreviewPage.jsx') :
     path.join('../frontend/src/components', 'PreviewPage.jsx');
+  
   try {
     execSync(`git add ${innerCodeFilePath}`);
     execSync(`git commit -m "${commitMessage}"`);
   } catch (error) {
-    throw new Error(`Failed to commit changes: ${error.message}`);
+    console.warn('提交变更失败:', error.message);
   }
 };
 
@@ -120,4 +177,5 @@ module.exports = {
     getHistoryFile,
     autoCommit,
     initCode,
+    initGitRepo,
 };
