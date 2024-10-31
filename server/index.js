@@ -30,7 +30,7 @@ initGitRepo();
 
 // 处理 GPT 请求的路由
 router.post("/generate-code", async (ctx) => {
-  const { useShadcnUI, prompt, apiKey, baseUrl, model } = ctx.request.body;
+  const { useShadcnUI, prompt, apiKey, baseUrl, model, referenceFiles } = ctx.request.body;
 
   const uiMode = useShadcnUI ? "React & Shadcn UI" : "React & Chakra UI";
   const uiExample = useShadcnUI
@@ -40,6 +40,14 @@ router.post("/generate-code", async (ctx) => {
   try {
     const currentCode = readCode();
 
+    let enhancedPrompt = prompt;
+    if (referenceFiles && referenceFiles.length > 0) {
+      enhancedPrompt += "\n\nReference files for context:\n";
+      referenceFiles.forEach(file => {
+        enhancedPrompt += `\nFile: ${file.name}\n\`\`\`\n${file.content}\n\`\`\`\n`;
+      });
+    }
+
     const detailedPrompt = `
 Blow is the existing code，I wrapped it in a code block for better readability:
 \`\`\`jsx
@@ -47,7 +55,7 @@ ${currentCode}
 \`\`\`
 
 Please make the following changes:
-${prompt}
+${enhancedPrompt}
 
 Return the complete and functional implementation code without any additional explanations and any markdown code block markers.
 `;

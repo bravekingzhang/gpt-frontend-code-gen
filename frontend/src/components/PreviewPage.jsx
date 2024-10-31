@@ -28,27 +28,27 @@ const Calculator = () => {
                 <Input className="text-2xl text-gray-800" placeholder="0" value={result} />
             </div>
             <div className="flex space-x-4">
-                <Button name="1" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">1</Button>
-                <Button name="2" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">2</Button>
-                <Button name="3" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">3</Button>
-                <Button name="+" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">+</Button>
+                <Button name="1" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">1</Button>
+                <Button name="2" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">2</Button>
+                <Button name="3" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">3</Button>
+                <Button name="+" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">+</Button>
             </div>
             <div className="flex space-x-4">
-                <Button name="4" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">4</Button>
-                <Button name="5" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">5</Button>
-                <Button name="6" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">6</Button>
-                <Button name="-" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">-</Button>
+                <Button name="4" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">4</Button>
+                <Button name="5" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">5</Button>
+                <Button name="6" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">6</Button>
+                <Button name="-" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">-</Button>
             </div>
             <div className="flex space-x-4">
-                <Button name="7" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">7</Button>
-                <Button name="8" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">8</Button>
-                <Button name="9" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">9</Button>
-                <Button name="*" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">*</Button>
+                <Button name="7" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">7</Button>
+                <Button name="8" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">8</Button>
+                <Button name="9" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">9</Button>
+                <Button name="*" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">*</Button>
             </div>
             <div className="flex space-x-4">
-                <Button name="0" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">0</Button>
-                <Button name="." onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">.</Button>
-                <Button name="/" onClick={handleClick} className="bg-blue-500 hover:bg-blue-600 text-white">/</Button>
+                <Button name="0" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">0</Button>
+                <Button name="." onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">.</Button>
+                <Button name="/" onClick={handleClick} className="bg-indigo-500 hover:bg-indigo-600 text-white">/</Button>
                 <Button onClick={calculate} className="bg-green-500 hover:bg-green-600 text-white">=</Button>
             </div>
             <div className="w-full flex">

@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from "react";
 import { MdBuild, MdCreateNewFolder } from "react-icons/md";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Upload } from "lucide-react";
 import axios from "axios";
 
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -22,11 +22,23 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
-import { Switch } from "./ui/switch";
 import { useToast } from "./ui/use-toast";
 import { ScrollArea } from "./ui/scroll-area";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Label } from "./ui/label";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 const HomePage = () => {
   const [prompt, setPrompt] = useState("");
@@ -39,7 +51,7 @@ const HomePage = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [fileChangeHistory, setFileChangeHistory] = useState([]);
-  const [useShadcnUI, setUseShadcnUI] = useLocalStorage("useShadcnUI", false);
+  const [referenceFiles, setReferenceFiles] = useState([]);
 
   const { toast } = useToast();
 
@@ -58,7 +70,7 @@ const HomePage = () => {
   const newPage = async () => {
     try {
       const response = await axios.post("http://localhost:3001/new-page", {
-        useShadcnUI,
+        useShadcnUI: true,
       });
       if (response.data.success) {
         toast({
@@ -79,15 +91,35 @@ const HomePage = () => {
     }
   };
 
+  const handleFileUpload = async (event) => {
+    const files = Array.from(event.target.files);
+    const fileContents = [];
+
+    for (const file of files) {
+      const text = await file.text();
+      fileContents.push({
+        name: file.name,
+        content: text,
+      });
+    }
+
+    setReferenceFiles([...referenceFiles, ...fileContents]);
+    toast({
+      title: "Files uploaded",
+      description: `${files.length} files added as reference`,
+    });
+  };
+
   const handleGenerateCode = async () => {
     try {
       setIsGenerating(true);
       const response = await axios.post("http://localhost:3001/generate-code", {
-        useShadcnUI,
+        useShadcnUI: true,
         prompt,
         apiKey,
         baseUrl,
         model,
+        referenceFiles,
       });
       if (response.data.success) {
         toast({
@@ -165,42 +197,99 @@ const HomePage = () => {
         </Accordion>
 
         <HistoryList history={fileChangeHistory} />
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Reference Files</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <Input
+                  type="file"
+                  multiple
+                  accept=".js,.jsx,.ts,.tsx"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                  id="file-upload"
+                />
+                <Label
+                  htmlFor="file-upload"
+                  className="flex items-center gap-2 cursor-pointer hover:text-primary"
+                >
+                  <Upload className="h-4 w-4" />
+                  Upload code files
+                </Label>
+              </div>
+              {referenceFiles.length > 0 && (
+                <ScrollArea className="h-[100px]">
+                  <div className="space-y-2">
+                    {referenceFiles.map((file, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between text-sm"
+                      >
+                        <span>{file.name}</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setReferenceFiles(referenceFiles.filter((_, i) => i !== index));
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         <Card>
           <CardContent className="pt-6 space-y-4">
-            <div className="flex gap-4">
-              <Textarea
-                placeholder="Enter your prompt here"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                className="flex-1"
-              />
-              <div className="flex flex-col items-center justify-center space-y-2 p-2 border rounded-md">
-                <Label>Shadcn UI</Label>
-                <Switch
-                  checked={useShadcnUI}
-                  onCheckedChange={setUseShadcnUI}
-                />
-              </div>
-            </div>
+            <Textarea
+              placeholder="Enter your prompt here"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              className="flex-1"
+            />
 
             <div className="flex gap-4">
-              <Button
-                variant="outline"
-                onClick={newPage}
-                className="flex gap-2"
-              >
-                <MdCreateNewFolder />
-                New Page
-              </Button>
-              <Button
-                onClick={handleGenerateCode}
-                disabled={!prompt || !apiKey || isGenerating}
-                className="flex gap-2"
-              >
-                <MdBuild />
-                {isGenerating ? "Generating..." : "Generate Code"}
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="outline"
+                      onClick={newPage}
+                      className="flex gap-2"
+                    >
+                      <MdCreateNewFolder />
+                      Create From Scratch
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Start a new page from scratch using Shadcn UI</p>
+                  </TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      onClick={handleGenerateCode}
+                      disabled={!prompt || !apiKey || isGenerating}
+                      className="flex gap-2"
+                    >
+                      <MdBuild />
+                      {isGenerating ? "Generating..." : "Modify Current Page"}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Modify and improve the current page based on your prompt and reference files</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </CardContent>
         </Card>
