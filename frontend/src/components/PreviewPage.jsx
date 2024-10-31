@@ -2,6 +2,7 @@ import * as React from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { FaGoogle, FaFacebook, FaGithub } from "react-icons/fa"
 
 const LoginPage = () => {
   return (
@@ -17,6 +18,20 @@ const LoginPage = () => {
             <Input placeholder="Email" type="email" />
             <Input placeholder="Password" type="password" />
             <Button>Login</Button>
+            <div className="flex justify-center space-x-4 mt-4">
+              <Button variant="outline" className="flex items-center space-x-2">
+                <FaGoogle />
+                <span>Google</span>
+              </Button>
+              <Button variant="outline" className="flex items-center space-x-2">
+                <FaFacebook />
+                <span>Facebook</span>
+              </Button>
+              <Button variant="outline" className="flex items-center space-x-2">
+                <FaGithub />
+                <span>GitHub</span>
+              </Button>
+            </div>
           </div>
         </TabsContent>
         <TabsContent value="register" className="mt-4">
